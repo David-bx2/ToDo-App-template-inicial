@@ -1,11 +1,9 @@
 window.addEventListener('load', function () {
     /* ---------------------- obtenemos variables globales ---------------------- */
-   const form = document.getElementById('loginForm');
-        const inputEmail = document.getElementById('inputEmail');
-        const inputPassword = document.getElementById('inputPassword');
-        const url = "http://todo-api.ctd.academy:3000//v1"
-
-});
+    const form = document.getElementById('loginForm');
+    const inputEmail = document.getElementById('inputEmail');
+    const inputPassword = document.getElementById('inputPassword');
+    const url = "https://todo-api.digitalhouse.com/v1/users/login";
 
     /* -------------------------------------------------------------------------- */
     /*            FUNCIÓN 1: Escuchamos el submit y preparamos el envío           */
@@ -33,36 +31,29 @@ window.addEventListener('load', function () {
         };
 
         realizarLogin(settings);
-        
-
-
-
     });
-
 
     /* -------------------------------------------------------------------------- */
     /*                     FUNCIÓN 2: Realizar el login [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarLogin(settings) {
-        fetch(url+"/users", settings)
-        .then(response => response.json())
-        .then(data => {
-            if (data.jwt) {
-                localStorage.setItem('jwt', data.jwt);
-                alert('Login exitoso. Redirigiendo a la página de tareas...');
-                setTimeout(() => {
-                    window.location.href = 'taks.html';
-                }, 5000);
-            } else {
-                alert('Login fallido. Por favor, verifique sus credenciales.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Ocurrió un error al realizar el login.');
+        fetch(url, settings)
+            .then(response => response.json())
+            .then(data => {
+                if (data.jwt) {
+                    localStorage.setItem('jwt', data.jwt);
+                    alert('Login exitoso. Redirigiendo a la página de tareas...');
+                    setTimeout(() => {
+                        location.replace("./mis-tareas.html");
+                      }, 5000);
+                } else {
+                    alert('Login fallido. Por favor, verifique sus credenciales.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ocurrió un error al realizar el login.');
+            });
+    }
+});
 
-
-
-
-        
-    })};

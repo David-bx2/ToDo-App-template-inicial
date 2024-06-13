@@ -6,7 +6,7 @@ window.addEventListener('load', function () {
         const inputEmail = document.getElementById('inputEmail');
         const inputPassword = document.getElementById('inputPassword');
         const inputPasswordRepetida = document.getElementById('inputPasswordRepetida');
-        const url = "http://todo-api.ctd.academy:3000//v1";
+        const url = "https://todo-api.digitalhouse.com/v1/users";
 
 
     
@@ -39,8 +39,8 @@ window.addEventListener('load', function () {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                nombre: nombre,
-                apellido: apellido,
+                firstName: nombre,
+                lastName: apellido,
                 email: email,
                 password: password
             })
@@ -57,11 +57,12 @@ window.addEventListener('load', function () {
     /*                    FUNCIÓN 2: Realizar el signup [POST]                    */
     /* -------------------------------------------------------------------------- */
     function realizarRegister(settings) {
-        fetch(url+"/users", settings)
+        fetch(url, settings)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.success) {
+                    if (data.jwt) {
                         alert('Registro exitoso. Redirigiendo a la página de login...');
+                        localStorage.setItem("jwt", JSON.stringify(data.jwt));
                         setTimeout(() => {
                             window.location.href = 'index.html';
                         }, 5000);
